@@ -8,27 +8,20 @@ cupx_file_stem = os.path.splitext(cupx_file)[0]
 binwalk_output_folder_name = "_{}.cupx.extracted".format(cupx_file_stem)
 cup_file = "{}.cup".format(cupx_file_stem)
 
+#Unzip the cupx-file
 os.system("binwalk -e {}".format(cupx_file))
 
-if os.path.isdir(binwalk_output_folder_name):
-    os.rename(binwalk_output_folder_name, "{}_xcsoar".format(cupx_file_stem))
-binwalk_output_folder_name = "{}_xcsoar".format(cupx_file_stem)
-
+#Rename the files in the folder
 binwalk_output_files = os.listdir(binwalk_output_folder_name)
 for tmp_file in binwalk_output_files:
-    if tmp_file[-4:] == ".cup":
-        #Give it  multiple tries if required, since renaming the folder might cause some issues when it comes to renaming the .cup-file
-        while True:
-            try:
-                os.rename(os.path.join(binwalk_output_folder_name, tmp_file), os.path.join(binwalk_output_folder_name, "{}.cup".format(cupx_file_stem)))
-                break
-            except:
-                print("ERROR: Renaming {} to {} might have failed!".format(os.path.join(binwalk_output_folder_name, tmp_file), os.path.join(binwalk_output_folder_name, "{}.cup".format(cupx_file_stem))))
+    if tmp_file[-4:] == ".cup" or tmp_file[-4:] == ".CUP":
+        os.rename(os.path.join(binwalk_output_folder_name, tmp_file), os.path.join(binwalk_output_folder_name, "{}.cup".format(cupx_file_stem)))
     if tmp_file[-4:] == ".zip":
         os.remove(os.path.join(binwalk_output_folder_name, tmp_file))
     if os.path.isdir(os.path.join(binwalk_output_folder_name, tmp_file)):
         os.rename(os.path.join(binwalk_output_folder_name, tmp_file), os.path.join(binwalk_output_folder_name, "{}_pics".format(cupx_file_stem)))
 
+#Create the details-file including the images' paths
 print("Parse {} and extract image paths...".format(os.path.join(binwalk_output_folder_name,cup_file)))
 with open(os.path.join(binwalk_output_folder_name,cup_file), 'r') as csv_in_file:
     csv_reader = csv.reader(csv_in_file)
@@ -58,3 +51,8 @@ with open(os.path.join(binwalk_output_folder_name,cup_file), 'r') as csv_in_file
             # Add newline for better readability
             output_file.write("\n")
     output_file.close()
+
+#Rename the folder containing all the files
+if os.path.isdir(binwalk_output_folder_name):
+    os.rename(binwalk_output_folder_name, "{}_xcsoar".format(cupx_file_stem))
+binwalk_output_folder_name = "{}_xcsoar".format(cupx_file_stem)
