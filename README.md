@@ -1,10 +1,10 @@
 # xcsoar_cupx_decoder
  
-This python-script can be used to extract files from a cupx-file, that can be processed by XCsoar.
+### This python-script can be used to extract files from a cupx-file, that can be processed by XCsoar.
 
-The only dependency is binwalk (Installing: sudo apt install binwalk).
+The only dependencies are ***binwalk*** (Installing: ```sudo apt install binwalk```) and a working ***Python*** installation.
 
-The script is called with the cupx-file's path as an argument (python cupx_convert.py YourFilesName.cupx) and viola...
+The script is called with the cupx-file's path as an argument (```python cupx_convert.py YourFilesName.cupx```) and viola...
 ...all files required for XCsoar are now located inside a newly created folder, named after the cupx-file.
 
 In order to make it work inside XCsoar:
