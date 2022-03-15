@@ -9,7 +9,8 @@ binwalk_output_folder_name = "_{}.cupx.extracted".format(cupx_file_stem)
 cup_file = "{}.cup".format(cupx_file_stem)
 
 #Unzip the cupx-file
-os.system("binwalk -e {}".format(cupx_file))
+print("Unpack the files using binwalk. This might take a few moments...")
+os.system("binwalk -e -q {}".format(cupx_file))
 
 #Rename the files in the folder
 binwalk_output_files = os.listdir(binwalk_output_folder_name)
